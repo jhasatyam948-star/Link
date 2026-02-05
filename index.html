@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Will You Be My Valentine?</title>
+
+<style>
+    body {
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ff5f9e;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+        color: white;
+    }
+
+    .box {
+        text-align: center;
+        z-index: 2;
+    }
+
+    h1 {
+        font-size: 36px;
+        margin-bottom: 30px;
+    }
+
+    button {
+        padding: 12px 35px;
+        font-size: 18px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        margin: 0 15px;
+        background: #ff2f7d;
+        color: white;
+    }
+
+    .popup {
+        position: absolute;
+        background: white;
+        color: #ff2f7d;
+        padding: 8px 14px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        animation: fade 1.2s forwards;
+    }
+
+    @keyframes fade {
+        to { opacity: 0; }
+    }
+
+    /* Floating Hearts */
+    .heart {
+        position: absolute;
+        bottom: -20px;
+        font-size: 20px;
+        animation: float 6s linear infinite;
+        opacity: 0.8;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-110vh) scale(1.5);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+
+<body onclick="playMusic()">
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7b0a0f2d8b.mp3" type="audio/mp3">
+</audio>
+
+<div class="box">
+    <h1>Will you be my Valentine? 💖</h1>
+    <button onclick="yesClicked()">Yes 💕</button>
+    <button id="no" onclick="noClicked()">No 😢</button>
+</div>
+
+<script>
+    const texts = [
+        "Really? 😳",
+        "Think again 🥺",
+        "Are you sure? 💔",
+        "Last chance 😜",
+        "Pleaseee 🥹",
+        "Try Yes 😍"
+    ];
+
+    function noClicked() {
+        const btn = document.getElementById("no");
+        const popup = document.createElement("div");
+
+        popup.className = "popup";
+        popup.innerText = texts[Math.floor(Math.random() * texts.length)];
+
+        popup.style.left = (btn.offsetLeft + Math.random() * 100 - 50) + "px";
+        popup.style.top = (btn.offsetTop + 50) + "px";
+
+        btn.parentElement.appendChild(popup);
+        setTimeout(() => popup.remove(), 1200);
+    }
+
+    function yesClicked() {
+        document.body.innerHTML = `
+            <div style="
+                height:100vh;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background:#ff5f9e;
+                color:white;
+                font-size:42px;
+                text-align:center;
+                padding:20px;
+            ">
+                Yayyyy 💖💖<br>
+                You’re my Valentine 😍
+            </div>
+        `;
+    }
+
+    /* Floating Hearts Generator */
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+        heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 7000);
+    }
+
+    setInterval(createHeart, 400);
+
+    /* Music (mobile-safe) */
+    let musicPlayed = false;
+    function playMusic() {
+        if (!musicPlayed) {
+            document.getElementById("bgMusic").play();
+            musicPlayed = true;
+        }
+    }
+</script>
+
+</body>
+</html>
